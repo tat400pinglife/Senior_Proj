@@ -171,7 +171,7 @@ int main(int argc, char *argv[])
     cudaDeviceSynchronize();
     gettimeofday(&s6, NULL);
     calc_time("scan.......\n",s5,s6); 
-    thrust::exclusive_scan(d_Plen, d_Plen + num_cells, d_PPos, 4);
+    thrust::exclusive_scan(d_PLen, d_PLen + num_cells, d_PPos, 4);
     //====================================================================================================
     //transferring data back to CPU
     uint *h_PKey=new uint[num_cells];
