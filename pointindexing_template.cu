@@ -135,7 +135,7 @@ int main(int argc, char *argv[])
     //YOUR WORK below: Step 1- transform point coordinates to cell identifiers; pay attention to functor xytor
     //thrust::transform(...);
 
-    thrust::transform(d_points.begin(), d_points.end(), d_cellids.begin(), xytor(run_lev));
+    thrust::transform(d_points, d_points + num_points, d_cellids, xytor(run_lev));
     cudaDeviceSynchronize();
     gettimeofday(&s3, NULL);
     calc_time("transforming..............\n",s2,s3);    
@@ -161,7 +161,7 @@ int main(int argc, char *argv[])
     //YOUR WORK below: Step 3- reduce by key 
     //use  d_cellids as the first input vector and thrust::constant_iterator<int>(1) as the second input
     size_t num_cells=0;//num_cells is initialized to 0 just to make the template compile; it should be updated next
-    // num_cells = thrust::reduce_by_key(...).first - d_PKey
+    // num_cells = thrust::reduce_by_key(...).first - d_PKey 
     // reduce_by_key(exec, keys_first, keys_last, values_first, keys_output, values_output)
     num_cells = thrust::reduce_by_key(thrust::host, d_cellids, d_cellids + num_points, thrust::constant_iterator<int>(1), d_PKey, d_PLen).first - d_PKey;
     cudaDeviceSynchronize();
