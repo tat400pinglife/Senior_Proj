@@ -163,7 +163,7 @@ int main(int argc, char *argv[])
     size_t num_cells=0;//num_cells is initialized to 0 just to make the template compile; it should be updated next
     // num_cells = thrust::reduce_by_key(...).first - d_PKey
     // reduce_by_key(exec, keys_first, keys_last, values_first, keys_output, values_output)
-    num_cells = thrust::reduce_by_key(thrust::host, d_cellids, d_cellids + num_points, thrust::constant_iterator<int>(1), d_PKey, d_PLen);
+    num_cells = thrust::reduce_by_key(thrust::host, d_cellids, d_cellids + num_points, thrust::constant_iterator<int>(1), d_PKey, d_PLen).first - d_PKey;
     cudaDeviceSynchronize();
     gettimeofday(&s5, NULL);
     calc_time("reducing.......\n",s4,s5);
