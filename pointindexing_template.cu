@@ -134,7 +134,7 @@ int main(int argc, char *argv[])
     //====================================================================================================
     //YOUR WORK below: Step 1- transform point coordinates to cell identifiers; pay attention to functor xytor
     //thrust::transform(...);
-    thrust::transform(d_points, d_points + num_points, d_cellids, xytor();
+    thrust::transform(d_points, d_points + num_points, d_cellids, xytor());
     cudaDeviceSynchronize();
     gettimeofday(&s3, NULL);
     calc_time("transforming..............\n",s2,s3);    
