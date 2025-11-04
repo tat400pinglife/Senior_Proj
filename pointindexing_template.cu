@@ -196,8 +196,6 @@ int main(int argc, char *argv[])
      	printf("(%d,%d)",p.x,p.y);
      }
     printf("\n");
-
-    cout <<h_PLen << endl;
      
     cout<<"cell identifiers:";
     thrust::copy(h_cellids, h_cellids+point_out, std::ostream_iterator<uint>(std::cout, " "));       
