@@ -142,7 +142,7 @@ int main(int argc, char *argv[])
     
     //YOUR WORK below: Step 2- sort (cellid,point) pairs 
     //thrust::stable_sort_by_key(...)
-    thrust::stable_sort_by_key(thrust::host, d_cellids, d_cellids + num_points, d_points);
+    thrust::stable_sort_by_key(d_cellids, d_cellids + num_points, d_points);
     cudaDeviceSynchronize();
     gettimeofday(&s4, NULL);    
     calc_time("sorting..............\n",s3,s4);
@@ -163,7 +163,7 @@ int main(int argc, char *argv[])
     size_t num_cells=0;//num_cells is initialized to 0 just to make the template compile; it should be updated next
     // num_cells = thrust::reduce_by_key(...).first - d_PKey 
     // reduce_by_key(exec, keys_first, keys_last, values_first, keys_output, values_output)
-    num_cells = thrust::reduce_by_key(thrust::host, d_cellids, d_cellids + num_points, thrust::constant_iterator<int>(1), d_PKey, d_PLen).first - d_PKey;
+    num_cells = thrust::reduce_by_key(d_cellids, d_cellids + num_points, thrust::constant_iterator<int>(1), d_PKey, d_PLen).first - d_PKey;
     cudaDeviceSynchronize();
     gettimeofday(&s5, NULL);
     calc_time("reducing.......\n",s4,s5);
@@ -171,7 +171,7 @@ int main(int argc, char *argv[])
     //YOUR WORK below: Step 4-  exclusive scan using d_PLen as the input and d_PPos as the output
     //thrust::exclusive_scan(...)
     //exclusive_scan(exec, first, last, result)
-    thrust::exclusive_scan(thrust::host, d_PLen, d_PLen + num_cells, d_PPos);
+    thrust::exclusive_scan(d_PLen, d_PLen + num_cells, d_PPos);
     cudaDeviceSynchronize();
     gettimeofday(&s6, NULL);
     calc_time("scan.......\n",s5,s6); 
