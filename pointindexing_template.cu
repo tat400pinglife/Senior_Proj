@@ -164,14 +164,14 @@ int main(int argc, char *argv[])
     cudaDeviceSynchronize();
     gettimeofday(&s5, NULL);
     calc_time("reducing.......\n",s4,s5);
-    num_cells = thrust::reduce_by_key(thrust::host, d_cellids, d_cellids.end(), thrust::constant_iterator<int>(1), d_PKey, d_PLen).first - d_PKey;
+    num_cells = thrust::reduce_by_key(thrust::host, d_cellids, d_cellids + num_cells, thrust::constant_iterator<int>(1), d_PKey, d_PLen).first - d_PKey;
     
     //YOUR WORK below: Step 4-  exclusive scan using d_PLen as the input and d_PPos as the output
     //thrust::exclusive_scan(...)
     cudaDeviceSynchronize();
     gettimeofday(&s6, NULL);
     calc_time("scan.......\n",s5,s6); 
-    thrust::exclusive_scan(d_Plen, d_Plen.end(), d_PPos, 4);
+    thrust::exclusive_scan(d_Plen, d_Plen + num_cells, d_PPos, 4);
     //====================================================================================================
     //transferring data back to CPU
     uint *h_PKey=new uint[num_cells];
