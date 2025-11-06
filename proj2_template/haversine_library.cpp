@@ -3,6 +3,8 @@
 #include <pybind11/numpy.h>
 #include <pybind11/stl.h>
 #include <cuda_runtime.h>
+#include <sys/time.h>
+#include <time.h>
 
 void run_kernel(int size, const double *x1,const double *y1, const double *x2,const double *y2, double *dist);
 
@@ -29,12 +31,15 @@ static void HandleError( cudaError_t err,
 void haversine_distance(int size,pybind11::array_t<double> x1_v,pybind11::array_t<double> y1_v,
     pybind11::array_t<double> x2_v,pybind11::array_t<double> y2_v,pybind11::array_t<double> dist_v)
 {
+  timeval s0, s1,s2,s3,s4,s5,s6,s7;
+
   assert(x1_v.request().ndim==1);
   assert(x2_v.request().ndim==1);
   assert(y1_v.request().ndim==1);
   assert(y2_v.request().ndim==1);
   assert(dist_v.request().ndim==1);
 
+  gettimeofday(&s0, NULL);
   double *d_x1,*d_y1,*d_x2,*d_y2,*d_dist;
   HANDLE_ERROR( cudaMalloc(&d_x1, size * sizeof(double)) );
   HANDLE_ERROR( cudaMalloc(&d_y1, size * sizeof(double)) );
@@ -42,22 +47,36 @@ void haversine_distance(int size,pybind11::array_t<double> x1_v,pybind11::array_
   HANDLE_ERROR( cudaMalloc(&d_y2, size * sizeof(double)) );
   HANDLE_ERROR( cudaMalloc(&d_dist, size * sizeof(double)) );
 
+  gettimeofday(&s1, NULL);
+  calc_time("Allocating memory", s0, s1);
+
   double* h_x1 = reinterpret_cast<double*>(x1_v.request().ptr);
   double* h_y1 = reinterpret_cast<double*>(y1_v.request().ptr);
   double* h_x2 = reinterpret_cast<double*>(x2_v.request().ptr);
   double* h_y2 = reinterpret_cast<double*>(y2_v.request().ptr);
   double* h_dist = reinterpret_cast<double*>(dist_v.request().ptr);
 
+  gettimeofday(&s2, NULL);
+
   HANDLE_ERROR( cudaMemcpy(d_x1, h_x1, size * sizeof(double), cudaMemcpyHostToDevice) );
   HANDLE_ERROR( cudaMemcpy(d_y1, h_y1, size * sizeof(double), cudaMemcpyHostToDevice) );
   HANDLE_ERROR( cudaMemcpy(d_x2, h_x2, size * sizeof(double), cudaMemcpyHostToDevice) );
   HANDLE_ERROR( cudaMemcpy(d_y2, h_y2, size * sizeof(double), cudaMemcpyHostToDevice) );
 
+  gettimeofday(&s3, NULL);
+  calc_time("CPU -> GPU Data Transfer", s1, s2);
+
   //printf("before\n");
   run_kernel(size,d_x1,d_y1,d_x2,d_y2,d_dist);
   //printf("after\n");
 
+  gettimeofday(&s4, NULL);
+  calc_time("Running the kernel", s3, s4);
+
   HANDLE_ERROR( cudaMemcpy(h_dist, d_dist, size * sizeof(double), cudaMemcpyDeviceToHost) );
+
+  gettimeofday(&s5, NULL);
+  calc_time("Running the kernel", s4, s5);
 
   HANDLE_ERROR( cudaFree(d_x1) );
   HANDLE_ERROR( cudaFree(d_y1) );
