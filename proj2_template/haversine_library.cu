@@ -3,8 +3,8 @@
 #include <cuda_runtime.h>
 
 
-__device__ double deg2rad(deg) {
-  return deg * (PI/180)
+__device__ double deg2rad(double deg) {
+  return deg * (PI/180);
 }
 
 __global__ void haversine_distance_kernel(int size, const double *x1,const double *y1,
