@@ -28,7 +28,7 @@ __global__ void haversine_distance_kernel(int size, const double *x1,const doubl
       sin(dLon/2) * sin(dLon/2)
       ; 
     double c = 2 * atan2(sqrt(a), sqrt(1-a)); 
-    dist[i] = c;
+    dist[i] = R * c; // Distance in km
   }
 }
 
