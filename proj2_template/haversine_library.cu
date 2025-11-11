@@ -4,7 +4,7 @@
 
 
 __device__ double deg2rad(double deg) {
-  return deg * (PI/180);
+  return deg * ((2 * acos(0.0))/180);
 }
 
 __global__ void haversine_distance_kernel(int size, const double *x1,const double *y1,
@@ -12,7 +12,7 @@ __global__ void haversine_distance_kernel(int size, const double *x1,const doubl
 {
   //use any references to compute haversine distance bewtween (x1,y1) and (x2,y2), given in vectors/arrays
   //e.g., https://stackoverflow.com/questions/27928/calculate-distance-between-two-latitude-longitude-points-haversine-formula
-  int i = blockIdx.x * blockID.x + threadId.x;
+  int i = blockIdx.x * blockIdx.x + threadIdx.x;
   if (i < size){
     double lon1 = x1[i];
     double lon2 = x2[i];
@@ -27,7 +27,7 @@ __global__ void haversine_distance_kernel(int size, const double *x1,const doubl
       cos(deg2rad(lat1)) * cos(deg2rad(lat2)) * 
       sin(dLon/2) * sin(dLon/2)
       ; 
-    double c = 2 * atan2(Math.sqrt(a), sqrt(1-a)); 
+    double c = 2 * atan2(sqrt(a), sqrt(1-a)); 
     dist[i] = R * c; // Distance in km
   }
 }
