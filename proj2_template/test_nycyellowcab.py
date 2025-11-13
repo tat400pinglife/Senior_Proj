@@ -17,9 +17,11 @@ end_lon = -73.7004
 end_lat = 40.9176
 for i in range(12):
     filename = f"/tmp/tlcdata/yellow_tripdata_2009-{i+1:02d}.parquet"
+    print(f"Reading {filename}...")
     cur = pd.read_parquet(filename)
+    print("Filtering...")
     cur = cur[(cur['Start_Lon'] > start_lon) & (cur['Start_Lon'] > start_lat) & (cur['End_Lon'] > end_lat) & (cur['End_Lat'] > end_lat)]
-
+    print("Concating...")
     df = pd.concat([df, cur])
 
 
