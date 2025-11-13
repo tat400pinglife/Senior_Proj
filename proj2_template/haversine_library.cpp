@@ -32,7 +32,7 @@ void haversine_distance(int size,pybind11::array_t<double> x1_v,pybind11::array_
     pybind11::array_t<double> x2_v,pybind11::array_t<double> y2_v,pybind11::array_t<double> dist_v)
 {
 
-  timeval* t0,t1;
+  timeval t0,t1;
   gettimeofday(t0, NULL);
   assert(x1_v.request().ndim==1);
   assert(x2_v.request().ndim==1);

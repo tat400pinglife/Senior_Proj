@@ -10,7 +10,13 @@ import haversine_library
 #data from https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page
 
 #taxi = cudf.read_parquet("yellow_tripdata_2009-01.parquet")
-taxi = pd.read_parquet("/tmp/tlcdata/yellow_tripdata_2009-01.parquet")
+#read from files 01 to 12
+
+taxi = pd.read_parquet("yellow_tripdata_2009-01.parquet")
+taxi.query('start_lon >= -74.15 & start_lon <= -73.70 & start_lat >= 40.55 & start_lat <= 40.90', inplace=True)
+
+print(taxi.head())
+
 
 x1=taxi['Start_Lon'].to_numpy()
 y1=taxi['Start_Lat'].to_numpy()
