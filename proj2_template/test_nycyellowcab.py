@@ -10,12 +10,19 @@ import haversine_library
 #data from https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page
 
 #taxi = cudf.read_parquet("yellow_tripdata_2009-01.parquet")
-taxi = pd.read_parquet("/tmp/tlcdata/yellow_tripdata_2009-01.parquet")
+df = pd.DataFrame()
+for i in range(12):
+    filename = f"/tmp/tlcdata/yellow_tripdata_2009-{i+1:02d}.parquet"
+    cur = pd.read_parquet(filename)
+    df = pd.concat([df, cur])
 
-x1=taxi['Start_Lon'].to_numpy()
-y1=taxi['Start_Lat'].to_numpy()
-x2=taxi['End_Lon'].to_numpy()
-y2=taxi['End_Lat'].to_numpy()
+
+x1=df['Start_Lon'].to_numpy()
+y1=df['Start_Lat'].to_numpy()
+x2=df['End_Lon'].to_numpy()
+y2=df['End_Lat'].to_numpy()
 size=len(x1)
 dist=np.zeros(size)
 haversine_library.haversine_distance(size,x1,y1,x2,y2,dist)
+
+print("dist:", dist)
