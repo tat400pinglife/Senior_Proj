@@ -1,38 +1,11 @@
-import sys, os, traceback
-print("START")
-
-print("sys.path before append:", sys.path[:5])
+print("Running")
+import sys
+import numpy as np
 sys.path.append('./build')
-print("sys.path after append:", sys.path[:5])
 
-print("files in ./build:", os.listdir('./build') if os.path.isdir('./build') else "(no build dir)")
-
-try:
-    import pandas as pd
-    print("pandas imported from:", pd.__file__)
-except Exception as e:
-    print("pandas import failed:", repr(e))
-    traceback.print_exc()
-
-try:
-    import pyarrow
-    print("pyarrow imported from:", pyarrow.__file__)
-except Exception as e:
-    print("pyarrow import failed:", repr(e))
-
-try:
-    import fastparquet
-    print("fastparquet imported from:", fastparquet.__file__)
-except Exception as e:
-    print("fastparquet import failed:", repr(e))
-
-try:
-    import haversine_library
-    print("haversine_library imported OK")
-except Exception as e:
-    print("haversine_library import failed:", repr(e))
-
-print("END")
+import pandas as pd
+#import cudf
+import haversine_library
 
 #code from: https://github.com/rapidsai/cuspatial/blob/724d170a2105441a3533b5eaf9ee82ddcfc49be0/notebooks/nyc_taxi_years_correlation.ipynb
 #data from https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page
