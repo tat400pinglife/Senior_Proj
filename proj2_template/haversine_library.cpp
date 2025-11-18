@@ -33,7 +33,7 @@ void haversine_distance(int size,pybind11::array_t<double> x1_v,pybind11::array_
 {
 
   timeval t0,t1;
-  gettimeofday(t0, NULL);
+  gettimeofday(&t0, NULL);
   assert(x1_v.request().ndim==1);
   assert(x2_v.request().ndim==1);
   assert(y1_v.request().ndim==1);
@@ -58,14 +58,14 @@ void haversine_distance(int size,pybind11::array_t<double> x1_v,pybind11::array_
   HANDLE_ERROR( cudaMemcpy(d_x2, h_x2, size * sizeof(double), cudaMemcpyHostToDevice) );
   HANDLE_ERROR( cudaMemcpy(d_y2, h_y2, size * sizeof(double), cudaMemcpyHostToDevice) );
 
-  gettimeofday(t1, NULL);  
+  gettimeofday(&t1, NULL);  
   calc_time("calculating haversine distance",t0,t1);
   //printf("before\n");
 
-  gettimeofday(t0, NULL);
+  gettimeofday(&t0, NULL);
   run_kernel(size,d_x1,d_y1,d_x2,d_y2,d_dist);
 
-  gettimeofday(t1, NULL);
+  gettimeofday(&t1, NULL);
   calc_time("running kernel",t0,t1);
   //printf("after\n");
   
