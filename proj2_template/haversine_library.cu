@@ -14,10 +14,10 @@ __global__ void haversine_distance_kernel(int size, const double *x1,const doubl
     if (idx >= size) return;
 
     // lat = x, lon = y
-    double lat1 = x1[idx];
-    double lon1 = y1[idx];
-    double lat2 = x2[idx];
-    double lon2 = y2[idx];
+    double lat1 = y1[idx];
+    double lon1 = x1[idx];
+    double lat2 = y2[idx];
+    double lon2 = x2[idx];
 
     double radius = 6371.0; // km
 
