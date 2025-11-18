@@ -2,6 +2,7 @@
 #include <iostream>
 #include <cuda_runtime.h>
 #include <cmath>
+#define PI 3.14159265358979323846
 
 __global__ void haversine_distance_kernel(int size, const double *x1,const double *y1,
     const double *x2,const double *y2, double *dist)
@@ -9,24 +10,30 @@ __global__ void haversine_distance_kernel(int size, const double *x1,const doubl
  //use any references to compute haversine distance bewtween (x1,y1) and (x2,y2), given in vectors/arrays
  //e.g., https://stackoverflow.com/questions/27928/calculate-distance-between-two-latitude-longitude-points-haversine-formula
 // lat = x lon = y
+    int idx = blockIdx.x * blockDim.x + threadIdx.x;
+    if (idx >= size) return;
 
- int idx = blockIdx.x * blockDim.x + threadIdx.x;
- if (idx < size) {
-   double lat1 = x1[idx];
-   double lon1 = y1[idx];
-   double lat2 = x2[idx];
-   double lon2 = y2[idx];
-   double radius = 6371.0; // Radius of the earth in km
-   dist[idx] = 
-      radius * 2.0 * 
-      asin(
-        sqrt(
-          pow(sin((lat2 - lat1) * M_PI / 180.0 / 2.0), 2) +
-          cos(lat1 * M_PI / 180.0) * cos(lat2 * M_PI / 180.0) *
-          pow(sin((lon2 - lon1) * M_PI / 180.0 / 2.0), 2)
-        )
-      );
-  }
+    // lat = x, lon = y
+    double lat1 = x1[idx];
+    double lon1 = y1[idx];
+    double lat2 = x2[idx];
+    double lon2 = y2[idx];
+
+    double radius = 6371.0; // km
+
+    // Convert to radians
+    double lat1r = lat1 * PI / 180.0;
+    double lat2r = lat2 * PI / 180.0;
+    double dlat  = (lat2 - lat1) * PI / 180.0;
+    double dlon  = (lon2 - lon1) * PI / 180.0;
+
+    // Haversine formula
+    double a = sin(dlat * 0.5) * sin(dlat * 0.5) +
+               cos(lat1r) * cos(lat2r) *
+               sin(dlon * 0.5) * sin(dlon * 0.5);
+
+    double c = 2.0 * asin(sqrt(a));
+    dist[idx] = radius * c;
 // function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
 //   int R = 6371;
 //   double dLat = deg2rad(x2-lat1); 
