@@ -22,6 +22,7 @@ for month in range(1,13):
     else:
         taxi = pd.concat([taxi, taxi_month], ignore_index=True)
 
+taxi.to_parquet('combined_data.parquet')
 x1=taxi['Start_Lon'].to_numpy()
 y1=taxi['Start_Lat'].to_numpy()
 x2=taxi['End_Lon'].to_numpy()
