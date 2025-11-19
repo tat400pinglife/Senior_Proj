@@ -11,12 +11,16 @@ import haversine_library
 
 #taxi = cudf.read_parquet("yellow_tripdata_2009-01.parquet")
 #read from files 01 to 12
-
-taxi = pd.read_parquet("/tmp/tlcdata/yellow_tripdata_2009-01.parquet")
-taxi.query('Start_Lon >= -74.15 & Start_Lon <= -73.70 & Start_Lat >= 40.55 & Start_Lat <= 40.90', inplace=True)
-
-print(taxi.head())
-
+# from 01 to 12
+for month in range(1,13):
+    month_str = str(month).zfill(2)
+    file_path = f"/tmp/tlcdata/yellow_tripdata_2009-{month_str}.parquet"
+    taxi_month = pd.read_parquet(file_path)
+    taxi_month.query('Start_Lon >= -74.15 & Start_Lon <= -73.70 & Start_Lat >= 40.55 & Start_Lat <= 40.90', inplace=True)
+    if month == 1:
+        taxi = taxi_month
+    else:
+        taxi = pd.concat([taxi, taxi_month], ignore_index=True)
 
 x1=taxi['Start_Lon'].to_numpy()
 y1=taxi['Start_Lat'].to_numpy()
