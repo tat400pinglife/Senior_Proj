@@ -18,8 +18,8 @@ end_lat = 40.9176
 
 query_str = (f"Start_Lon >= {start_lon} & "
 f"Start_Lat >= {start_lat} & "
-f"End_Lon >= {end_lon} & "
-f"End_Lat >= {end_lat}"
+f"End_Lon <= {end_lon} & "
+f"End_Lat <= {end_lat}"
 )
 all_x1 = []
 all_y1 = []
@@ -36,9 +36,6 @@ for i in range(12):
     all_y1.append(cur['Start_Lat'].to_numpy())
     all_x2.append(cur['End_Lon'].to_numpy())
     all_y2.append(cur['End_Lat'].to_numpy())
-
-
-
 
 
 x1=np.concatenate(all_x1)
