@@ -1,4 +1,3 @@
-print("Running")
 import sys
 import numpy as np
 sys.path.append('./build')
@@ -21,7 +20,7 @@ for i in range(12):
     print(f"Reading {filename}...")
     cur = pd.read_parquet(filename)
     print("Filtering...")
-    cur = cur[(cur['Start_Lon'] > start_lon) & (cur['Start_Lon'] > start_lat) & (cur['End_Lon'] > end_lat) & (cur['End_Lat'] > end_lat)]
+    cur = cur[(cur['Start_Lon'] > start_lon) & (cur['Start_Lon'] > start_lat) & (cur['End_Lon'] > end_lon) & (cur['End_Lat'] > end_lat)]
     print("Concating...")
     df = pd.concat([df, cur])
 
