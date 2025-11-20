@@ -7,6 +7,11 @@ import pandas as pd
 #import cudf
 import haversine_library
 
+useMyDir = True
+serverDir = "/tmp"
+myDir = "."
+
+dirToUse = myDir if useMyDir else serverDir
 #code from: https://github.com/rapidsai/cuspatial/blob/724d170a2105441a3533b5eaf9ee82ddcfc49be0/notebooks/nyc_taxi_years_correlation.ipynb
 #data from https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page
 
@@ -17,7 +22,7 @@ start_lat = 40.5774
 end_lon = -73.7004
 end_lat = 40.9176
 for i in range(12):
-    filename = f"/tmp/tlcdata/yellow_tripdata_2009-{i+1:02d}.parquet"
+    filename = f"{dirToUse}/tlcdata/yellow_tripdata_2009-{i+1:02d}.parquet"
     print(f"Reading {filename}...")
     cur = pd.read_parquet(filename)
     print("Filtering...")
