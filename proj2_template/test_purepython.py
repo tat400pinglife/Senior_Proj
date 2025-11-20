@@ -70,7 +70,7 @@ for month in range(1, 13):
 
     # Filter
     df = df.query(query_expr)
-    cur = cur[(cur['Start_Lon'] >= start_lon) & (cur['Start_Lat'] >= start_lat) & (cur['End_Lon'] <= end_lon) & (cur['End_Lat'] <= end_lat)]
+    df = df[(df['Start_Lon'] >= start_lon) & (df['Start_Lat'] >= start_lat) & (df['End_Lon'] <= end_lon) & (df['End_Lat'] <= end_lat)]
     all_x1.append(df["Start_Lon"].to_numpy())
     all_y1.append(df["Start_Lat"].to_numpy())
     all_x2.append(df["End_Lon"].to_numpy())
