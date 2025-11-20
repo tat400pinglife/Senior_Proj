@@ -91,10 +91,13 @@ dist = np.zeros(size, dtype=np.float64)
 # Posted by gilbert8, modified by community. See post 'Timeline' for change history
 # Retrieved 2025-11-20, License - CC BY-SA 4.0
 
-start = timeit.timeit()
+t = timeit.timeit(
+    "haversine_distance(size, x1, y1, x2, y2, dist)",
+    globals=globals(),
+    number=1  
+)
 
-haversine_distance(size, x1, y1, x2, y2, dist)
-end = timeit.timeit()
-print(end - start)
+print("Elapsed:", t)
+
 print("Kernel finished for", size, "rows.")
 print("Distances:", dist)
