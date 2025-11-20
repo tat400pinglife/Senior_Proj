@@ -31,7 +31,8 @@ for i in range(12):
     print(f"Reading {filename}...")
     cur = pd.read_parquet(filename)
     print("Filtering...")
-    cur = cur.query(query_str)
+    # cur = cur.query(query_str)
+    cur = cur[(cur['Start_Lon'] >= start_lon) & (cur['Start_Lat'] >= start_lat) & (cur['End_Lon'] <= end_lon) & (cur['End_Lat'] <= end_lat)]
     all_x1.append(cur['Start_Lon'].to_numpy())
     all_y1.append(cur['Start_Lat'].to_numpy())
     all_x2.append(cur['End_Lon'].to_numpy())
