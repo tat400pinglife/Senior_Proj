@@ -15,6 +15,12 @@ start_lon = -74.15
 start_lat = 40.5774
 end_lon = -73.7004
 end_lat = 40.9176
+
+query_str = f"Start_Lon >= {start_lon} &
+Start_Lat >= {start_lat} &
+End_Lon >= {end_lon} &
+End_Lat >= {end_lat}
+"
 all_x1 = []
 all_y1 = []
 all_x2 = []
@@ -25,8 +31,7 @@ for i in range(12):
     print(f"Reading {filename}...")
     cur = pd.read_parquet(filename)
     print("Filtering...")
-    cur = cur[(cur['Start_Lon'] > start_lon) & (cur['Start_Lon'] > start_lat) & (cur['End_Lon'] > end_lon) & (cur['End_Lat'] > end_lat)]
-    print("Concating...")
+    cur = cur.query(query_str)
     all_x1.append(cur['Start_Lon'].to_numpy())
     all_y1.append(cur['Start_Lat'].to_numpy())
     all_x2.append(cur['End_Lon'].to_numpy())
