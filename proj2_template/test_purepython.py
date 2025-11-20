@@ -87,10 +87,6 @@ del all_x1, all_y1, all_x2, all_y2
 size = len(x1)
 dist = np.zeros(size, dtype=np.float64)
 
-# Source - https://stackoverflow.com/q
-# Posted by gilbert8, modified by community. See post 'Timeline' for change history
-# Retrieved 2025-11-20, License - CC BY-SA 4.0
-
 t = timeit.timeit(
     "haversine_distance(size, x1, y1, x2, y2, dist)",
     globals=globals(),
