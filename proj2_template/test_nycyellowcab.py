@@ -15,6 +15,11 @@ start_lon = -74.15
 start_lat = 40.5774
 end_lon = -73.7004
 end_lat = 40.9176
+all_x1 = []
+all_y1 = []
+all_x2 = []
+all_y2 = []
+
 for i in range(12):
     filename = f"/tmp/tlcdata/yellow_tripdata_2009-{i+1:02d}.parquet"
     print(f"Reading {filename}...")
@@ -22,15 +27,20 @@ for i in range(12):
     print("Filtering...")
     cur = cur[(cur['Start_Lon'] > start_lon) & (cur['Start_Lon'] > start_lat) & (cur['End_Lon'] > end_lon) & (cur['End_Lat'] > end_lat)]
     print("Concating...")
-    df = pd.concat([df, cur])
+    all_x1.append(cur['Start_Lon'].to_numpy())
+    all_y1.append(cur['Start_Lat'].to_numpy())
+    all_x2.append(cur['End_Lon'].to_numpy())
+    all_y2.append(cur['End_Lat'].to_numpy())
 
 
 
 
-x1=df['Start_Lon'].to_numpy()
-y1=df['Start_Lat'].to_numpy()
-x2=df['End_Lon'].to_numpy()
-y2=df['End_Lat'].to_numpy()
+
+x1=np.concatenate(all_x1)
+y1=np.concatenate(all_y1)
+x2=np.concatenate(all_x2)
+y2=np.concatenate(all_y2)
+
 size=len(x1)
 dist=np.zeros(size)
 haversine_library.haversine_distance(size,x1,y1,x2,y2,dist)
