@@ -16,11 +16,11 @@ start_lat = 40.5774
 end_lon = -73.7004
 end_lat = 40.9176
 
-query_str = f"""Start_Lon >= {start_lon} &
-Start_Lat >= {start_lat} &
-End_Lon >= {end_lon} &
-End_Lat >= {end_lat}
-"""
+query_str = (f"Start_Lon >= {start_lon} & "
+f"Start_Lat >= {start_lat} & "
+f"End_Lon >= {end_lon} & "
+f"End_Lat >= {end_lat}"
+)
 all_x1 = []
 all_y1 = []
 all_x2 = []
