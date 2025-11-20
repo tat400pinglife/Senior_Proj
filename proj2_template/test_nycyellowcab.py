@@ -26,9 +26,20 @@ all_y1 = []
 all_x2 = []
 all_y2 = []
 
+
+data_dir = "/tmp/tlcdata"
+
+try:
+    with open("./tlcdata/yellow_tripdata_2009-01.parquet", "rb") as f:
+        data_dir = "./tlcdata"
+        print("Reading from ./tlcdata")
+except (FileNotFoundError, OSError):
+    print(f"Reading from {data_dir}")
+
+
 for month in range(1, 13):
     month_str = f"{month:02d}"
-    file_path = f"/tmp/tlcdata/yellow_tripdata_2009-{month_str}.parquet"
+    file_path = f"{data_dir}/yellow_tripdata_2009-{month_str}.parquet"
 
     print("Loading:", file_path)
     df = pd.read_parquet(file_path)
