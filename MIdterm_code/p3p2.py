@@ -1,6 +1,7 @@
 import numpy as np
-#from sklearn.linear_model import LinearRegression
-from cuml.linear_model import LinearRegression
+from sklearn.linear_model import LinearRegression
+# from cuml.linear_model import LinearRegression
+# it should be the same, I didnt want to mess up the server environment anymore
 
 
 X = np.array([3.3, 4.4, 5.5, 6.71, 6.93, 4.168, 9.779, 6.182, 7.59, 2.167, 7.042, 10.791, 5.313, 7.997, 5.654, 9.27, 3.1]).reshape(-1, 1)
